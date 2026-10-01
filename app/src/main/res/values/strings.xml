@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">ArtSpace</string>
+
+
+    <!-- Boutons -->
+<string name="previous">Précédent</string>
+<string name="next">Suivant</string>
+
+    <!-- Oeuvre 1 -->
+<string name="artwork_1_title">Titre de l oeuvre 1</string>
+<string name="artwork_1_artist">Artiste 1</string>
+<string name="artwork_1_year">2021</string>
+<string name="artwork_1_description">Description de l oeuvre 1</string>
+
+    <!-- Oeuvre 2 -->
+<string name="artwork_2_title">Titre de l oeuvre 2</string>
+<string name="artwork_2_artist">Artiste 2</string>
+<string name="artwork_2_year">2022</string>
+<string name="artwork_2_description">Description de l oeuvre 2</string>
+
+    <!-- Oeuvre 3 -->
+<string name="artwork_3_title">Titre de l oeuvre 3</string>
+<string name="artwork_3_artist">Artiste 3</string>
+<string name="artwork_3_year">2023</string>
+<string name="artwork_3_description">Description de l oeuvre 3</string>
+
+</resources>
