@@ -32,6 +32,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.artspace.ui.theme.ArtSpaceTheme
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +55,12 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun ArtSpaceApp(modifier: Modifier = Modifier) {
+// Les états : une valeur par élément qui change
+    var imageRes by remember { mutableStateOf(R.drawable.oeuvre_1) }
+    var titleRes by remember { mutableStateOf(R.string.artwork_1_title) }
+    var artistRes by remember { mutableStateOf(R.string.artwork_1_artist) }
+    var yearRes by remember { mutableStateOf(R.string.artwork_1_year) }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -60,21 +70,30 @@ fun ArtSpaceApp(modifier: Modifier = Modifier) {
     ) {
 
         ArtworkWall(
-            imageRes = R.drawable.oeuvre_1,
-            contentDescriptionRes = R.string.artwork_1_title,
+            imageRes = imageRes,
+            contentDescriptionRes = titleRes,
             modifier = Modifier.weight(1f)
         )
 
 
         ArtworkDescriptor(
-            titleRes = R.string.artwork_1_title,
-            artistRes = R.string.artwork_1_artist,
-            yearRes = R.string.artwork_1_year,
+            titleRes = titleRes,
+            artistRes = artistRes,
+            yearRes = yearRes,
             modifier = Modifier.padding(vertical = 16.dp)
         )
 
 
-        DisplayController()
+        DisplayController(
+            onPreviousClick = { },
+            onNextClick = {
+
+                imageRes = R.drawable.oeuvre_2
+                titleRes = R.string.artwork_2_title
+                artistRes = R.string.artwork_2_artist
+                yearRes = R.string.artwork_2_year
+            }
+        )
     }
 
 }
@@ -143,7 +162,11 @@ fun ArtworkDescriptor(
 }
 
 @Composable
-fun DisplayController(modifier: Modifier = Modifier) {
+fun DisplayController(
+    modifier: Modifier = Modifier,
+    onPreviousClick: () -> Unit,
+    onNextClick: () -> Unit
+) {
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -152,13 +175,13 @@ fun DisplayController(modifier: Modifier = Modifier) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Button(
-            onClick = { },
+            onClick = onPreviousClick,
             modifier = Modifier.width(130.dp)
         ) {
             Text(text = stringResource(R.string.previous))
         }
         Button(
-            onClick = { },
+            onClick = onPreviousClick,
             modifier = Modifier.width(130.dp)
         ) {
             Text(text = stringResource(R.string.next))
