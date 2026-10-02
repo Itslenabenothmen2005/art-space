@@ -3,20 +3,34 @@ package com.example.artspace
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.artspace.ui.theme.ArtSpaceTheme
 
 class MainActivity : ComponentActivity() {
@@ -40,27 +54,116 @@ fun ArtSpaceApp(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceBetween
     ) {
 
-        Image(
-            painter = painterResource(R.drawable.oeuvre_1),
-            contentDescription = stringResource(R.string.artwork_1_title)
+        ArtworkWall(
+            imageRes = R.drawable.oeuvre_1,
+            contentDescriptionRes = R.string.artwork_1_title,
+            modifier = Modifier.weight(1f)
         )
 
-        Text(text = stringResource(R.string.artwork_1_title))
-        Text(
-            text = stringResource(R.string.artwork_1_artist) +
-                    " (" + stringResource(R.string.artwork_1_year) + ")"
+
+        ArtworkDescriptor(
+            titleRes = R.string.artwork_1_title,
+            artistRes = R.string.artwork_1_artist,
+            yearRes = R.string.artwork_1_year,
+            modifier = Modifier.padding(vertical = 16.dp)
         )
-        Button(onClick = { }) {
+
+
+        DisplayController()
+    }
+
+}
+
+@Composable
+fun ArtworkWall(
+    @DrawableRes imageRes: Int,
+    @StringRes contentDescriptionRes: Int,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier.fillMaxWidth(),
+        contentAlignment = Alignment.Center
+    ) {
+
+        Surface(
+            shadowElevation = 8.dp,
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Image(
+                painter = painterResource(imageRes),
+                contentDescription = stringResource(contentDescriptionRes),
+                modifier = Modifier.padding(24.dp)
+            )
+        }
+    }
+}
+
+@Composable
+fun ArtworkDescriptor(
+    @StringRes titleRes: Int,
+    @StringRes artistRes: Int,
+    @StringRes yearRes: Int,
+    modifier: Modifier = Modifier
+) {
+    val title = stringResource(titleRes)
+    val artist = stringResource(artistRes)
+    val year = stringResource(yearRes)
+
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.surfaceVariant)
+            .padding(16.dp),
+        horizontalAlignment = Alignment.Start
+    ) {
+        Text(
+            text = title,
+            fontSize = 28.sp,
+            fontWeight = FontWeight.Light
+        )
+        // Un seul Text avec plusieurs styles : artiste en gras, année normale
+        Text(
+            text = buildAnnotatedString {
+                withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
+                    append(artist)
+                }
+                append(" (")
+                append(year)
+                append(")")
+            },
+            fontSize = 16.sp
+        )
+    }
+
+}
+
+@Composable
+fun DisplayController(modifier: Modifier = Modifier) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Button(
+            onClick = { },
+            modifier = Modifier.width(130.dp)
+        ) {
             Text(text = stringResource(R.string.previous))
         }
-        Button(onClick = { }) {
+        Button(
+            onClick = { },
+            modifier = Modifier.width(130.dp)
+        ) {
             Text(text = stringResource(R.string.next))
         }
     }
-
 }
 
 @Preview(showBackground = true)
