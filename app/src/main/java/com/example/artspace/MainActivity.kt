@@ -55,11 +55,39 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun ArtSpaceApp(modifier: Modifier = Modifier) {
-// Les états : une valeur par élément qui change
+
+    var currentArtwork by remember { mutableStateOf(1) }
+
+
     var imageRes by remember { mutableStateOf(R.drawable.oeuvre_1) }
     var titleRes by remember { mutableStateOf(R.string.artwork_1_title) }
     var artistRes by remember { mutableStateOf(R.string.artwork_1_artist) }
     var yearRes by remember { mutableStateOf(R.string.artwork_1_year) }
+
+
+    fun showArtwork(id: Int) {
+        currentArtwork = id
+        when (id) {
+            1 -> {
+                imageRes = R.drawable.oeuvre_1
+                titleRes = R.string.artwork_1_title
+                artistRes = R.string.artwork_1_artist
+                yearRes = R.string.artwork_1_year
+            }
+            2 -> {
+                imageRes = R.drawable.oeuvre_2
+                titleRes = R.string.artwork_2_title
+                artistRes = R.string.artwork_2_artist
+                yearRes = R.string.artwork_2_year
+            }
+            else -> {
+                imageRes = R.drawable.oeuvre_3
+                titleRes = R.string.artwork_3_title
+                artistRes = R.string.artwork_3_artist
+                yearRes = R.string.artwork_3_year
+            }
+        }
+    }
 
     Column(
         modifier = modifier
@@ -75,7 +103,6 @@ fun ArtSpaceApp(modifier: Modifier = Modifier) {
             modifier = Modifier.weight(1f)
         )
 
-
         ArtworkDescriptor(
             titleRes = titleRes,
             artistRes = artistRes,
@@ -83,15 +110,20 @@ fun ArtSpaceApp(modifier: Modifier = Modifier) {
             modifier = Modifier.padding(vertical = 16.dp)
         )
 
-
         DisplayController(
-            onPreviousClick = { },
+            onPreviousClick = {
+                when (currentArtwork) {
+                    1 -> showArtwork(3)
+                    2 -> showArtwork(1)
+                    else -> showArtwork(2)
+                }
+            },
             onNextClick = {
-
-                imageRes = R.drawable.oeuvre_2
-                titleRes = R.string.artwork_2_title
-                artistRes = R.string.artwork_2_artist
-                yearRes = R.string.artwork_2_year
+                when (currentArtwork) {
+                    1 -> showArtwork(2)
+                    2 -> showArtwork(3)
+                    else -> showArtwork(1)
+                }
             }
         )
     }

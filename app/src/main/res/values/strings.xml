@@ -7,10 +7,10 @@
 <string name="next">Suivant</string>
 
     <!-- Oeuvre 1 -->
-<string name="artwork_1_title">Titre de l oeuvre 1</string>
-<string name="artwork_1_artist">Artiste 1</string>
-<string name="artwork_1_year">2021</string>
-<string name="artwork_1_description">Description de l oeuvre 1</string>
+<string name="artwork_1_title">Starry Night</string>
+<string name="artwork_1_artist">Van Gogh</string>
+<string name="artwork_1_year">June 1889</string>
+<string name="artwork_1_description">une peinture surréaliste de Van Gogh</string>
 
     <!-- Oeuvre 2 -->
 <string name="artwork_2_title">Titre de l oeuvre 2</string>
