@@ -34,8 +34,11 @@ import androidx.compose.ui.unit.sp
 import com.example.artspace.ui.theme.ArtSpaceTheme
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import android.content.res.Configuration
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.platform.LocalConfiguration
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,15 +58,11 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun ArtSpaceApp(modifier: Modifier = Modifier) {
-
-    var currentArtwork by remember { mutableStateOf(1) }
-
-
-    var imageRes by remember { mutableStateOf(R.drawable.oeuvre_1) }
-    var titleRes by remember { mutableStateOf(R.string.artwork_1_title) }
-    var artistRes by remember { mutableStateOf(R.string.artwork_1_artist) }
-    var yearRes by remember { mutableStateOf(R.string.artwork_1_year) }
-
+    var currentArtwork by rememberSaveable { mutableStateOf(1) }
+    var imageRes by rememberSaveable { mutableStateOf(R.drawable.oeuvre_1) }
+    var titleRes by rememberSaveable { mutableStateOf(R.string.artwork_1_title) }
+    var artistRes by rememberSaveable { mutableStateOf(R.string.artwork_1_artist) }
+    var yearRes by rememberSaveable { mutableStateOf(R.string.artwork_1_year) }
 
     fun showArtwork(id: Int) {
         currentArtwork = id
@@ -89,43 +88,81 @@ fun ArtSpaceApp(modifier: Modifier = Modifier) {
         }
     }
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceBetween
-    ) {
 
-        ArtworkWall(
-            imageRes = imageRes,
-            contentDescriptionRes = titleRes,
-            modifier = Modifier.weight(1f)
-        )
+    val onPreviousClick: () -> Unit = {
+        when (currentArtwork) {
+            1 -> showArtwork(3)
+            2 -> showArtwork(1)
+            else -> showArtwork(2)
+        }
+    }
+    val onNextClick: () -> Unit = {
+        when (currentArtwork) {
+            1 -> showArtwork(2)
+            2 -> showArtwork(3)
+            else -> showArtwork(1)
+        }
+    }
 
-        ArtworkDescriptor(
-            titleRes = titleRes,
-            artistRes = artistRes,
-            yearRes = yearRes,
-            modifier = Modifier.padding(vertical = 16.dp)
-        )
+    val isLandscape =
+        LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
 
-        DisplayController(
-            onPreviousClick = {
-                when (currentArtwork) {
-                    1 -> showArtwork(3)
-                    2 -> showArtwork(1)
-                    else -> showArtwork(2)
-                }
-            },
-            onNextClick = {
-                when (currentArtwork) {
-                    1 -> showArtwork(2)
-                    2 -> showArtwork(3)
-                    else -> showArtwork(1)
-                }
+    if (isLandscape) {
+        Row(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            ArtworkWall(
+                imageRes = imageRes,
+                contentDescriptionRes = titleRes,
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxHeight()
+            )
+            Column(
+                modifier = Modifier.weight(1f),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                ArtworkDescriptor(
+                    titleRes = titleRes,
+                    artistRes = artistRes,
+                    yearRes = yearRes,
+                    modifier = Modifier.padding(vertical = 16.dp)
+                )
+                DisplayController(
+                    onPreviousClick = onPreviousClick,
+                    onNextClick = onNextClick
+                )
             }
-        )
+        }
+    } else {
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceBetween
+        ) {
+            ArtworkWall(
+                imageRes = imageRes,
+                contentDescriptionRes = titleRes,
+                modifier = Modifier.weight(1f)
+            )
+            ArtworkDescriptor(
+                titleRes = titleRes,
+                artistRes = artistRes,
+                yearRes = yearRes,
+                modifier = Modifier.padding(vertical = 16.dp)
+            )
+            DisplayController(
+                onPreviousClick = onPreviousClick,
+                onNextClick = onNextClick
+            )
+        }
     }
 
 }
@@ -177,7 +214,7 @@ fun ArtworkDescriptor(
             fontSize = 28.sp,
             fontWeight = FontWeight.Light
         )
-        // Un seul Text avec plusieurs styles : artiste en gras, année normale
+
         Text(
             text = buildAnnotatedString {
                 withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {

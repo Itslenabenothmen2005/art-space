@@ -10,18 +10,18 @@
 <string name="artwork_1_title">Starry Night</string>
 <string name="artwork_1_artist">Van Gogh</string>
 <string name="artwork_1_year">June 1889</string>
-<string name="artwork_1_description">une peinture surréaliste de Van Gogh</string>
+<string name="artwork_1_description">Starry Night une peinture surréaliste de Van Gogh</string>
 
     <!-- Oeuvre 2 -->
-<string name="artwork_2_title">Titre de l oeuvre 2</string>
-<string name="artwork_2_artist">Artiste 2</string>
-<string name="artwork_2_year">2022</string>
-<string name="artwork_2_description">Description de l oeuvre 2</string>
+<string name="artwork_2_title">Le Cri</string>
+<string name="artwork_2_artist">Edvard Munch</string>
+<string name="artwork_2_year">entre 1893 et 1917</string>
+<string name="artwork_2_description">Le Cri est une œuvre expressionniste </string>
 
     <!-- Oeuvre 3 -->
-<string name="artwork_3_title">Titre de l oeuvre 3</string>
-<string name="artwork_3_artist">Artiste 3</string>
-<string name="artwork_3_year">2023</string>
-<string name="artwork_3_description">Description de l oeuvre 3</string>
+<string name="artwork_3_title">La Jeune Fille à la perle  </string>
+<string name="artwork_3_artist">Johannes Vermeer</string>
+<string name="artwork_3_year">1665</string>
+<string name="artwork_3_description">La Jeune Fille à la perle de Johannes Vermeer est un témoignage de l’habileté du maître néerlandais à capturer la lumière et l’émotion.</string>
 
 </resources>
